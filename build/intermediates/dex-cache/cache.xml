@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\support-v13\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="a809555a2599054c3dcd1bf82b089315ac3a11df">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v13-23.3.0_95f4c39c5d127b34042574bfbece1e7cbecc1cc4\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4da5a4d697d32497c6f85567a5112e62fdfd0676">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_8d22e06017548a16f0c21c420b673580b8dbe18c\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="b0b0f6ff6559674febcb9326652b9a0af95a8a3c">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run-bootstrap_8978c26fd2ca2bfccc629ab33635ecfecd5d148f\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\support-v4\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8a034dd16c0dfd75fe86c52c2cd581592acc684a">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-support-v4-23.3.0_af36250c1e0391165d2c691ff42e361133bd7086\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\cardview-v7\23.3.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="82ce13fd19cdfde0e392f03c27edeba8d4333648">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-cardview-v7-23.3.0_395d1623a1a33b74fd7ccc1f264978556defca7d\classes.dex" />
+    </item>
+    <item
+        jar="C:\Android\sdk2\extras\android\m2repository\com\android\support\support-annotations\23.3.0\support-annotations-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="db7791d75a07fef9844d06236c1c59ba7bf6997c">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-23.3.0_a2621e170232d80b1f06d965e652f21256ec900b\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\support-v13\23.3.0\jars\libs\internal_impl-23.3.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="8813bdcf7583107c4873150075d17c8072ec50cf">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\internal_impl-23.3.0_df77be675919b74df0dbcebe333096334d30a491\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="6aa7561807053b83668b6dbef9c9d696992eb705">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\instant-run_980130e258bdcff211fc6912b3ba39822c2ceae4\classes.dex" />
+    </item>
+    <item
+        jar="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.0\jars\classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="4fcf0b1879f8caf497c073e1432d398e9e2988c1">
+        <dex dex="D:\AndroidProjects\CognitiveCam\CognitiveCam\Application\build\intermediates\transforms\dex\debug\folders\1000\10\com.android.support-appcompat-v7-23.0.0_c3c8a588d2f1869850a4d2ed0eec1af659683e19\classes.dex" />
+    </item>
+
+</items>
