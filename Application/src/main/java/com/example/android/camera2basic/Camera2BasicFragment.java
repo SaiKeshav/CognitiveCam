@@ -433,6 +433,7 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        // Use this file location for accessing the image
         mFile = new File(getActivity().getExternalFilesDir(null), "pic.jpg");
     }
 

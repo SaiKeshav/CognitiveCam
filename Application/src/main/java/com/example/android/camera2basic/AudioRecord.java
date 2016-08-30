@@ -131,6 +131,7 @@ public class AudioRecord
     }
 
     public AudioRecord() {
+        // File that stores the recorded question
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";
     }
