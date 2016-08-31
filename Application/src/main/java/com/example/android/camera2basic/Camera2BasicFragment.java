@@ -895,6 +895,9 @@ public class Camera2BasicFragment extends Fragment
         else{
             ar.stopRecording();
             ar.startPlaying();
+            Context currContext = getActivity().getApplicationContext();
+            new VisualRecognition(currContext).execute(mFile.getPath());
+            new QuestionClassifier().execute("What is this ?");
             capture = false;
         }
     }

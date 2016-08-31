@@ -17,6 +17,7 @@
 package com.example.android.camera2basic;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 
 public class CameraActivity extends Activity {
@@ -31,4 +32,5 @@ public class CameraActivity extends Activity {
                     .commit();
         }
     }
+
 }
