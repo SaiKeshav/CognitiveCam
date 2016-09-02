@@ -21,7 +21,7 @@ import android.widget.Button;
 import java.io.IOException;
 
 
-public class AudioRecord
+public class AudioRecordCustom
 {
     private static final String LOG_TAG = "AudioRecordTest";
     private static String mFileName = null;
@@ -130,7 +130,7 @@ public class AudioRecord
         }
     }
 
-    public AudioRecord() {
+    public AudioRecordCustom() {
         // File that stores the recorded question
         mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += "/audiorecordtest.3gp";

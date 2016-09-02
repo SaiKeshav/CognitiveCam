@@ -44,6 +44,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -884,20 +885,29 @@ public class Camera2BasicFragment extends Fragment
     }
 
     boolean capture = false;
-    AudioRecord ar = new AudioRecord();
+//    AudioRecordPCM ar = new AudioRecordPCM();
+    WavAudioRecorder ear = WavAudioRecorder.getInstance();
     @Override
     public void onClick(View view) {
         if(!capture) {
             takePicture();
-            ar.startRecording();
+//            ar.startRecording();
+            ear.reset();
+            ear.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()+"/question.wav");
+            ear.prepare();
+            ear.start();
             capture = true;
         }
         else{
-            ar.stopRecording();
-            ar.startPlaying();
+            ear.stop();
+//            ear.startPlaying();
+//            ar.stopRecording();
+//            ar.startPlaying();
             Context currContext = getActivity().getApplicationContext();
             new VisualRecognition(currContext).execute(mFile.getPath());
             new QuestionClassifier().execute("What is this ?");
+            new SpeechToTextTask().execute();
+            new TextToSpeechTask().execute();
             capture = false;
         }
     }
