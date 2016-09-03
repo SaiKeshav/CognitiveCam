@@ -64,6 +64,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -178,7 +179,7 @@ public class Camera2BasicFragment extends Fragment
     private CameraDevice mCameraDevice;
 
     /**
-     * The {@link android.util.Size} of camera preview.
+     * The {@link Size} of camera preview.
      */
     private Size mPreviewSize;
 
@@ -233,7 +234,7 @@ public class Camera2BasicFragment extends Fragment
     /**
      * This is the output file for our picture.
      */
-    private File mFile;
+    public static File mFile;
 
     /**
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
@@ -731,7 +732,7 @@ public class Camera2BasicFragment extends Fragment
     }
 
     /**
-     * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`.
+     * Configures the necessary {@link Matrix} transformation to `mTextureView`.
      * This method should be called after the camera preview size is determined in
      * setUpCameraOutputs and also the size of `mTextureView` is fixed.
      *
@@ -884,33 +885,35 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+    public static  Context currContext;
+
     boolean capture = false;
-//    AudioRecordPCM ar = new AudioRecordPCM();
     WavAudioRecorder ear = WavAudioRecorder.getInstance();
+    public static boolean answerCompleted = true; // indicates completion of answer
+    public static long startTime = 0;
     @Override
     public void onClick(View view) {
+        if(answerCompleted == false){ // Dont consider clicks till the completion of previous answer
+            return;
+        }
         if(!capture) {
             takePicture();
-//            ar.startRecording();
             ear.reset();
-            ear.setOutputFile(Environment.getExternalStorageDirectory().getAbsolutePath()+"/question.wav");
+            ear.setOutputFile(getActivity().getExternalFilesDir(null)+"/question.wav");
             ear.prepare();
             ear.start();
             capture = true;
         }
         else{
             ear.stop();
-//            ear.startPlaying();
-//            ar.stopRecording();
-//            ar.startPlaying();
-            Context currContext = getActivity().getApplicationContext();
-            new VisualRecognition(currContext).execute(mFile.getPath());
-            new QuestionClassifier().execute("What is this ?");
-            new SpeechToTextTask().execute();
-            new TextToSpeechTask().execute();
+            answerCompleted = false; // Set to true at end of SpeechToTextTask.java
+            currContext = getActivity().getApplicationContext();
+            startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
+            new SpeechToTextTask().execute(getActivity().getExternalFilesDir(null).getPath());
             capture = false;
         }
     }
+
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
         if (mFlashSupported) {
@@ -931,7 +934,7 @@ public class Camera2BasicFragment extends Fragment
         /**
          * The file we save the image into.
          */
-        private final File mFile;
+        public static File mFile;
 
         public ImageSaver(Image image, File file) {
             mImage = image;

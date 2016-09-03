@@ -5,8 +5,9 @@ import android.os.AsyncTask;
 import com.ibm.watson.developer_cloud.http.ServiceCall;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classification;
-import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classifier;
-import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Classifiers;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Keshav on 8/30/2016.
@@ -16,20 +17,35 @@ import com.ibm.watson.developer_cloud.natural_language_classifier.v1.model.Class
  */
 public class QuestionClassifier extends AsyncTask<String,Void,String> {
 
+    public String DirectoryPath = null;
+
     @Override
     protected String doInBackground(String... paths) {
-        System.out.println("!!!!!!!!!!!!!!!!! Doing classification !!!!!!!!!!!");
+        System.out.println("Classifying question...");
         String question = paths[0];
         NaturalLanguageClassifier service = new NaturalLanguageClassifier();
         service.setUsernameAndPassword("50484991-1d28-49a0-aaf6-0caae44b8608", "7luqfgcIasoz");
 
-//        ServiceCall<Classifiers> classifiers = service.getClassifiers();
         ServiceCall<Classification> classificationServiceCall = service.classify("33fffex86-nlc-3331", question);
         Classification classification = classificationServiceCall.execute();
-        System.out.println(classification);
-        return "NothingToReturn";
+
+        DirectoryPath = paths[1];
+
+        return classification.toString();
     }
 
+    protected void onPostExecute(String result) {
+        try {
+            JSONObject obj = new JSONObject(result);
+            String qclass= obj.getString("top_class");
+            System.out.println("Question Class: "+qclass);
+            new VisualRecognition(Camera2BasicFragment.currContext).execute(Camera2BasicFragment.mFile.getPath(),DirectoryPath);
+
+            } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
 //    public static void main(String args[]) {
 //        System.out.println("!! In my main !!");
 //

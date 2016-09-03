@@ -21,6 +21,9 @@ import android.os.AsyncTask;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.ClassifyImagesOptions;
 import com.ibm.watson.developer_cloud.visual_recognition.v3.model.VisualClassification;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,8 +40,11 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
         mContext = c;
     }
 
+    public String DirectoryPath = null;
+
     @Override
     protected String doInBackground(String... paths) {
+        System.out.println("Performing Visual Recognition...");
 
         // params comes from the execute() call: params[0] is the url.
         com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition service = new com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition(com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition.VERSION_DATE_2016_05_20);
@@ -49,19 +55,32 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
         File compressedImage = bitmapToFile(compressedBitmap);
 
-        System.out.println("Classify an image");
         ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
                 .images(compressedImage)
                 .build();
         VisualClassification result = service.classify(options).execute();
-        System.out.println("Result is : " + result);
-        return "NothingToReturn";
+
+        DirectoryPath = paths[1];
+
+        return result.toString();
     }
 
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-//        textView.setText(result);
+        try {
+            JSONObject obj = new JSONObject(result);
+            JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
+            String classes=resultarray1.getJSONArray("classifiers").getJSONObject(0).getJSONArray("classes").getJSONObject(0).getString("class");
+
+            System.out.println("Classes : "+classes);
+            new TextToSpeechTask().execute(classes,DirectoryPath);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+// textView.setText(result);
     }
 
     public File bitmapToFile(Bitmap bmp) {
