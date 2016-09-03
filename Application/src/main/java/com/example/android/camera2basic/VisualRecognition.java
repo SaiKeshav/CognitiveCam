@@ -54,7 +54,7 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
         // Library link : https://github.com/zetbaitsu/Compressor
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
         File compressedImage = bitmapToFile(compressedBitmap);
-
+        // TODO Image size may be still greater than 1 MB !
         ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
                 .images(compressedImage)
                 .build();
