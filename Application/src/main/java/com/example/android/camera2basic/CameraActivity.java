@@ -19,15 +19,34 @@ package com.example.android.camera2basic;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
+import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 public class CameraActivity extends Activity {
+
+    public static MediaPlayer mPlayer = null;
+    public static Context currContext = null;
+    public static Activity currActivity = null;
+    public static boolean dev = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        currContext = getApplicationContext();
+        currActivity = this;
+        if(!isNetworkAvailable(currContext)){
+            startPlaying("nointernet");
+        }
+        startPlaying("appstarting");
         if (null == savedInstanceState) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
@@ -35,4 +54,42 @@ public class CameraActivity extends Activity {
         }
     }
 
+    // Will stop the current playing track !
+    public synchronized static void startPlaying(String resourceName){
+        if(mPlayer != null){
+            mPlayer.release();
+            mPlayer = null;
+        }
+        mPlayer = MediaPlayer.create(currContext,
+                currContext.getResources().getIdentifier(resourceName,"raw",currContext.getPackageName()));
+        mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                //Release the player on completion
+                mp.reset();
+                mp.release();
+                mp = null;
+            }
+        });
+        mPlayer.start();
+    }
+
+    public boolean isNetworkAvailable(Context context)
+    {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null;
+    }
+
+    public static void showToast(final String text) {
+        final Activity activity = currActivity;
+        if (activity != null) {
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(activity, text, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }

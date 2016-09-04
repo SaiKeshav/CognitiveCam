@@ -43,6 +43,7 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -894,6 +895,7 @@ public class Camera2BasicFragment extends Fragment
     @Override
     public void onClick(View view) {
         if(answerCompleted == false){ // Dont consider clicks till the completion of previous answer
+            CameraActivity.startPlaying("incompleteclicks");
             return;
         }
         if(!capture) {
@@ -903,6 +905,7 @@ public class Camera2BasicFragment extends Fragment
             ear.prepare();
             ear.start();
             capture = true;
+
         }
         else{
             ear.stop();
@@ -910,6 +913,7 @@ public class Camera2BasicFragment extends Fragment
             currContext = getActivity().getApplicationContext();
             startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
             new SpeechToTextTask().execute(getActivity().getExternalFilesDir(null).getPath());
+            CameraActivity.startPlaying("secondclick");
             capture = false;
         }
     }

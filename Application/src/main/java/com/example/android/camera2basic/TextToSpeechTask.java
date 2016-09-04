@@ -51,7 +51,11 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
     public void startPlaying() {
         System.out.println("Playing the answer...");
         String mFileName = DirectoryPath+"/answer.flac";
-        MediaPlayer mPlayer = new MediaPlayer();
+        MediaPlayer mPlayer = CameraActivity.mPlayer;
+        if(mPlayer != null){
+            mPlayer.release();
+            mPlayer = new MediaPlayer();
+        }
         try {
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
                 @Override
@@ -59,6 +63,7 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
                     //Release the player on completion
                     mp.reset();
                     mp.release();
+                    mp = null;
                 }
             });
             mPlayer.setDataSource(mFileName);
