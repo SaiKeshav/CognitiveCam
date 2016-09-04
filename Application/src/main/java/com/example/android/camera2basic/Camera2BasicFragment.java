@@ -44,6 +44,7 @@ import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -912,7 +913,8 @@ public class Camera2BasicFragment extends Fragment
             answerCompleted = false; // Set to true at end of SpeechToTextTask.java
             currContext = getActivity().getApplicationContext();
             startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
-            new SpeechToTextTask().execute(getActivity().getExternalFilesDir(null).getPath());
+            AsyncTask sptotxt = new SpeechToTextTask();
+            sptotxt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getActivity().getExternalFilesDir(null).getPath());
             CameraActivity.startPlaying("secondclick");
             capture = false;
         }

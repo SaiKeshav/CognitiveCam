@@ -14,18 +14,19 @@ import java.io.File;
 /**
  * Created by Keshav on 9/1/2016.
  */
-public class SpeechToTextTask extends AsyncTask<String,Void,String> {
+public class SpeechToTextTask extends AsyncTask<Object,Void,String> {
 
     public String DirectoryPath = null;
 
     @Override
-    protected String doInBackground(String... paths) {
+    protected String doInBackground(Object... opaths) {
+        String path = (String)opaths[0];
         System.out.println("Performing Speech-to-Text...");
         SpeechToText service = new SpeechToText();
         service.setUsernameAndPassword("1739623b-bdf8-444d-a1ff-45577fdaf99a", "ixSozkf7TwTF");
 
-        DirectoryPath = paths[0];
-        String fileName = paths[0]+"/question.wav";
+        DirectoryPath = path;
+        String fileName = path+"/question.wav";
         SpeechResults results = service.recognize(new File(fileName)).execute();
         return results.toString();
     }

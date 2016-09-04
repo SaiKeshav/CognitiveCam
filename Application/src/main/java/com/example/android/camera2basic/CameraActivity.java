@@ -28,8 +28,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.util.concurrent.Semaphore;
 
-public class CameraActivity extends Activity {
+public class CameraActivity extends Activity{
 
     public static MediaPlayer mPlayer = null;
     public static Context currContext = null;
@@ -45,8 +46,9 @@ public class CameraActivity extends Activity {
         currActivity = this;
         if(!isNetworkAvailable(currContext)){
             startPlaying("nointernet");
+        }else{
+            startPlaying("appstarting");
         }
-        startPlaying("appstarting");
         if (null == savedInstanceState) {
             getFragmentManager().beginTransaction()
                     .replace(R.id.container, Camera2BasicFragment.newInstance())
@@ -62,16 +64,17 @@ public class CameraActivity extends Activity {
         }
         mPlayer = MediaPlayer.create(currContext,
                 currContext.getResources().getIdentifier(resourceName,"raw",currContext.getPackageName()));
+        mPlayer.start();
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
+                System.out.println("!!REACHED COMPLETION!!");
                 //Release the player on completion
                 mp.reset();
                 mp.release();
                 mp = null;
             }
         });
-        mPlayer.start();
     }
 
     public boolean isNetworkAvailable(Context context)
