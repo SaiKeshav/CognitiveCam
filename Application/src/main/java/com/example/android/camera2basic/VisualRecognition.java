@@ -32,7 +32,7 @@ import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
 
-public class VisualRecognition extends AsyncTask<String, Void, String> {
+public class VisualRecognition extends AsyncTask<Object, Void, String> {
 
     private Context mContext;
 
@@ -41,16 +41,16 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
     }
 
     public String DirectoryPath = null;
-
+    public static String classes;
     @Override
-    protected String doInBackground(String... paths) {
+    protected String doInBackground(Object... paths) {
         System.out.println("Performing Visual Recognition...");
 
         // params comes from the execute() call: params[0] is the url.
         com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition service = new com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition(com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition.VERSION_DATE_2016_05_20);
         service.setApiKey("26a259b7f5dc0f5c8c1cc933d8722b0e66aed5df");
 
-        File actualImageFile = new File(paths[0]);
+        File actualImageFile = new File((String)paths[0]);
         // Library link : https://github.com/zetbaitsu/Compressor
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
         File compressedImage = bitmapToFile(compressedBitmap);
@@ -60,7 +60,7 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
                 .build();
         VisualClassification result = service.classify(options).execute();
 
-        DirectoryPath = paths[1];
+        DirectoryPath = (String)paths[1];
 
         return result.toString();
     }
@@ -71,12 +71,12 @@ public class VisualRecognition extends AsyncTask<String, Void, String> {
         try {
             JSONObject obj = new JSONObject(result);
             JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
-            String classes=resultarray1.getJSONArray("classifiers").getJSONObject(0).getJSONArray("classes").getJSONObject(0).getString("class");
+            classes=resultarray1.getJSONArray("classifiers").getJSONObject(0).getJSONArray("classes").getJSONObject(0).getString("class");
 
             System.out.println("Classes : "+classes);
-            new TextToSpeechTask().execute(classes,DirectoryPath);
+          //  new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println("Nothing Detected");
         }
 
 

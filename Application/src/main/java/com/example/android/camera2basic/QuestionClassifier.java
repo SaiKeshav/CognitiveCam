@@ -39,7 +39,31 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
             JSONObject obj = new JSONObject(result);
             String qclass= obj.getString("top_class");
             System.out.println("Question Class: "+qclass);
-            new VisualRecognition(Camera2BasicFragment.currContext).execute(Camera2BasicFragment.mFile.getPath(),DirectoryPath);
+           // new VisualRecognition(Camera2BasicFragment.currContext).execute(Camera2BasicFragment.mFile.getPath(),DirectoryPath);
+            switch (qclass){
+                case "1":{
+                    System.out.println("It classified as Identification");
+                    new TextToSpeechTask().execute(VisualRecognition.classes,DirectoryPath);
+                }
+                break;
+                case "2":{
+                    System.out.println("It classified as Description");
+                    String des="Minimum Age is " + AgeGender.minAge + " and gender is " +AgeGender.gender;
+                    new TextToSpeechTask().execute(des,DirectoryPath);
+                }
+                break;
+                case "3":{
+                    System.out.println("It classified as Text Recognition");
+                    new TextToSpeechTask().execute(RecognizeText.text,DirectoryPath);
+                }
+                break;
+                case "4":{
+                    System.out.println("Sorry Couldn't classify");
+                    new TextToSpeechTask().execute("Sorry ! we couldn't figure out what it is.",DirectoryPath);
+                }
+
+            }
+
 
             } catch (JSONException e) {
             e.printStackTrace();

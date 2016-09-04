@@ -43,10 +43,8 @@ import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
-import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
@@ -66,7 +64,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -913,7 +910,14 @@ public class Camera2BasicFragment extends Fragment
             answerCompleted = false; // Set to true at end of SpeechToTextTask.java
             currContext = getActivity().getApplicationContext();
             startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
+            AsyncTask vr = new VisualRecognition(currContext);
+            vr.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
+            AsyncTask rt= new RecognizeText(currContext);
+            rt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
+            AsyncTask ag= new AgeGender(currContext);
+            ag.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
             AsyncTask sptotxt = new SpeechToTextTask();
+
             sptotxt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getActivity().getExternalFilesDir(null).getPath());
             CameraActivity.startPlaying("secondclick");
             capture = false;
