@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 import id.zelory.compressor.Compressor;
 
@@ -47,7 +48,7 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
     public String DirectoryPath = null;
     public static int minAge,maxAge;
     public static String gender;
-
+    public static CountDownLatch countDownLatch;
     @Override
     protected String doInBackground(Object... paths) {
         System.out.println("Performing Visual Recognition...");
@@ -75,20 +76,25 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
+        System.out.println("OnPostExecute...");
         System.out.println(result);
         try {
+
             JSONObject obj = new JSONObject(result);
             JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
             minAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("min");
             maxAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("max");
             gender=resultarray1.getJSONArray("faces").getJSONObject(1).getJSONObject("gender").getString("gender");
             System.out.println("Age Gender : "+minAge +' '+ maxAge+' '+ gender);
+            if(minAge==0 && maxAge==0 && gender==null){
+                throw new JSONException("Age,Gender not found");
+            }
            // new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected in Age Gender");
         }
 
-
+        countDownLatch.countDown();
 // textView.setText(result);
     }
 

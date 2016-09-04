@@ -69,6 +69,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
@@ -897,15 +898,16 @@ public class Camera2BasicFragment extends Fragment
             return;
         }
         if(!capture) {
+            reset();
             takePicture();
             ear.reset();
             ear.setOutputFile(getActivity().getExternalFilesDir(null)+"/question.wav");
             ear.prepare();
             ear.start();
             capture = true;
-
         }
         else{
+            acquireSem();
             ear.stop();
             answerCompleted = false; // Set to true at end of SpeechToTextTask.java
             currContext = getActivity().getApplicationContext();
@@ -924,6 +926,21 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
+
+    public static void acquireSem(){
+        VisualRecognition.countDownLatch = new CountDownLatch(1);
+        AgeGender.countDownLatch = new CountDownLatch(1);
+        RecognizeText.countDownLatch = new CountDownLatch(1);
+    }
+
+    // Refresh all static variables to avoid persistence over repeated calls
+    public static void reset(){
+        VisualRecognition.classes = null;
+        RecognizeText.text = null;
+        AgeGender.minAge = 0;
+        AgeGender.maxAge = 0;
+        AgeGender.gender = null;
+    }
 
     private void setAutoFlash(CaptureRequest.Builder requestBuilder) {
         if (mFlashSupported) {

@@ -42,19 +42,40 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
            // new VisualRecognition(Camera2BasicFragment.currContext).execute(Camera2BasicFragment.mFile.getPath(),DirectoryPath);
             switch (qclass){
                 case "1":{
+                    VisualRecognition.countDownLatch.await();
                     System.out.println("It classified as Identification");
-                    new TextToSpeechTask().execute(VisualRecognition.classes,DirectoryPath);
+                    String answer;
+                    if(VisualRecognition.classes!=null){
+                        answer = "Found object "+VisualRecognition.classes;
+                    }else{
+                        answer = "Sorry, could not recognize any object";
+                    }
+                    new TextToSpeechTask().execute(answer, DirectoryPath);
                 }
                 break;
                 case "2":{
+                    AgeGender.countDownLatch.await();
+                    String answer;
+                    if(AgeGender.minAge==0 && AgeGender.maxAge==0 && AgeGender.gender==null){
+                        answer="Sorry, could not recognize anyone";
+                    }else{
+                        answer="Minimum Age is " + AgeGender.minAge + " and gender is " +AgeGender.gender;
+                    }
                     System.out.println("It classified as Description");
-                    String des="Minimum Age is " + AgeGender.minAge + " and gender is " +AgeGender.gender;
-                    new TextToSpeechTask().execute(des,DirectoryPath);
+                    new TextToSpeechTask().execute(answer,DirectoryPath);
                 }
                 break;
                 case "3":{
+                    RecognizeText.countDownLatch.await();
+                    String answer;
+                    if(RecognizeText.text!="" && RecognizeText.text!=null){
+                        answer = "Found text "+RecognizeText.text;
+                    }else{
+                        answer = "Sorry, could not recognize any texts";
+                    }
+
                     System.out.println("It classified as Text Recognition");
-                    new TextToSpeechTask().execute(RecognizeText.text,DirectoryPath);
+                    new TextToSpeechTask().execute(answer,DirectoryPath);
                 }
                 break;
                 case "4":{
@@ -66,6 +87,8 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
 
 
             } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 

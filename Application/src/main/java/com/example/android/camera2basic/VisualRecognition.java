@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
 
 import id.zelory.compressor.Compressor;
 
@@ -42,6 +43,7 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
 
     public String DirectoryPath = null;
     public static String classes;
+    public static CountDownLatch countDownLatch;
     @Override
     protected String doInBackground(Object... paths) {
         System.out.println("Performing Visual Recognition...");
@@ -68,18 +70,18 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
+        System.out.println("OnPostExecute...");
         try {
             JSONObject obj = new JSONObject(result);
             JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
             classes=resultarray1.getJSONArray("classifiers").getJSONObject(0).getJSONArray("classes").getJSONObject(0).getString("class");
-
             System.out.println("Classes : "+classes);
-          //  new TextToSpeechTask().execute(classes,DirectoryPath);
+            //  new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected");
         }
 
-
+        countDownLatch.countDown();
 // textView.setText(result);
     }
 
