@@ -56,10 +56,10 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                 case "2":{
                     AgeGender.countDownLatch.await();
                     String answer;
-                    if(AgeGender.minAge==0 && AgeGender.maxAge==0 && AgeGender.gender==null){
+                    if(AgeGender.minAge==0 && AgeGender.maxAge==0 && AgeGender.gender==""){
                         answer="Sorry, could not recognize anyone";
                     }else{
-                        answer="Minimum Age is " + AgeGender.minAge + " and gender is " +AgeGender.gender;
+                        answer = "The person is a "+AgeGender.gender+" with age between "+AgeGender.minAge+" and "+AgeGender.maxAge;
                     }
                     System.out.println("It classified as Description");
                     new TextToSpeechTask().execute(answer,DirectoryPath);
@@ -68,10 +68,10 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                 case "3":{
                     RecognizeText.countDownLatch.await();
                     String answer;
-                    if(RecognizeText.text!="" && RecognizeText.text!=null){
+                    if(RecognizeText.text!=""){
                         answer = "Found text "+RecognizeText.text;
                     }else{
-                        answer = "Sorry, could not recognize any texts";
+                        answer = "Sorry, could not recognize any text";
                     }
 
                     System.out.println("It classified as Text Recognition");

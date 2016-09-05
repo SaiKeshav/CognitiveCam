@@ -70,31 +70,34 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
 
         DirectoryPath = (String)paths[1];
 
+        System.out.println("OnPostExecute...");
+        System.out.println(result);
+        try {
+
+            JSONObject obj = new JSONObject(result.toString());
+            JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
+            minAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("min");
+            maxAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("max");
+            gender=resultarray1.getJSONArray("faces").getJSONObject(1).getJSONObject("gender").getString("gender");
+            System.out.println("Age Gender : "+minAge +' '+ maxAge+' '+ gender);
+            if(minAge==0 && maxAge==0 && gender==""){
+                throw new JSONException("Age,Gender not found");
+            }
+            // new TextToSpeechTask().execute(classes,DirectoryPath);
+        } catch (JSONException e) {
+            System.out.println("Nothing Detected in Age Gender");
+        } finally{
+            countDownLatch.countDown();
+        }
+
         return result.toString();
     }
 
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-        System.out.println("OnPostExecute...");
-        System.out.println(result);
-        try {
 
-            JSONObject obj = new JSONObject(result);
-            JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
-            minAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("min");
-            maxAge=resultarray1.getJSONArray("faces").getJSONObject(0).getJSONObject("age").getInt("max");
-            gender=resultarray1.getJSONArray("faces").getJSONObject(1).getJSONObject("gender").getString("gender");
-            System.out.println("Age Gender : "+minAge +' '+ maxAge+' '+ gender);
-            if(minAge==0 && maxAge==0 && gender==null){
-                throw new JSONException("Age,Gender not found");
-            }
-           // new TextToSpeechTask().execute(classes,DirectoryPath);
-        } catch (JSONException e) {
-            System.out.println("Nothing Detected in Age Gender");
-        }
 
-        countDownLatch.countDown();
 // textView.setText(result);
     }
 

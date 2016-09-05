@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="java-sdk-3.3.0-jar-with-dependencies">
     <CLASSES>
-      <root url="jar://D:/AndroidProjects/CognitiveCam/CognitiveCam/libs/java-sdk-3.3.0-jar-with-dependencies.jar!/" />
+      <root url="jar://$PROJECT_DIR$/libs/java-sdk-3.3.0-jar-with-dependencies.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

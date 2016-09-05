@@ -67,25 +67,28 @@ public class RecognizeText extends AsyncTask<Object, Void, String> {
 
         DirectoryPath = (String)paths[1];
 
-        return result.toString();
-    }
-
-    // onPostExecute displays the results of the AsyncTask.
-    @Override
-    protected void onPostExecute(String result) {
         System.out.println("OnPostExecute...");
         System.out.println(result);
         try {
 
-            JSONObject obj = new JSONObject(result);
+            JSONObject obj = new JSONObject(result.toString());
             JSONObject resultarray1= obj.getJSONArray("images").getJSONObject(0);
             text=resultarray1.getString("text");
             System.out.println("Recognize Text : "+text);
             //new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected In Text ");
+        } finally{
+            countDownLatch.countDown();
         }
-        countDownLatch.countDown();
+
+        return result.toString();
+    }
+
+    // onPostExecute displays the results of the AsyncTask.
+    @Override
+    protected void onPostExecute(String result) {
+
 // textView.setText(result);
     }
 

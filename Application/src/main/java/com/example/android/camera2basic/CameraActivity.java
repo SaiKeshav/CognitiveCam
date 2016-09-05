@@ -68,7 +68,6 @@ public class CameraActivity extends Activity{
         mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                System.out.println("!!REACHED COMPLETION!!");
                 //Release the player on completion
                 mp.reset();
                 mp.release();
