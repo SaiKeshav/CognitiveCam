@@ -1,7 +1,6 @@
 package com.example.android.camera2basic;
 
 import android.os.AsyncTask;
-import android.os.Environment;
 
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
@@ -24,7 +23,6 @@ public class SpeechToTextTask extends AsyncTask<Object,Void,String> {
         System.out.println("Performing Speech-to-Text...");
         SpeechToText service = new SpeechToText();
         service.setUsernameAndPassword("1739623b-bdf8-444d-a1ff-45577fdaf99a", "ixSozkf7TwTF");
-
         DirectoryPath = path;
         String fileName = path+"/question.wav";
         SpeechResults results = service.recognize(new File(fileName)).execute();
@@ -36,11 +34,14 @@ public class SpeechToTextTask extends AsyncTask<Object,Void,String> {
             JSONObject obj = new JSONObject(result);
             JSONObject resultarray1= obj.getJSONArray("results").getJSONObject(0);
             String question=resultarray1.getJSONArray("alternatives").getJSONObject(0).getString("transcript");
-            // TODO question can be null !
             new QuestionClassifier().execute(question,DirectoryPath);
             System.out.println("Question : "+question);
         } catch (JSONException e) {
-            e.printStackTrace();
+            System.out.println("Did not get the question!");
+            CameraActivity.startPlaying("repeatquestion");
+            Camera2BasicFragment.capture=false;
+            Camera2BasicFragment.answerCompleted=true;
+//            e.printStackTrace();
         }
 
     }

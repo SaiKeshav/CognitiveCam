@@ -887,7 +887,7 @@ public class Camera2BasicFragment extends Fragment
 
     public static  Context currContext;
 
-    boolean capture = false;
+    public static boolean capture = false;
     WavAudioRecorder ear = WavAudioRecorder.getInstance();
     public static boolean answerCompleted = true; // indicates completion of answer
     public static long startTime = 0;

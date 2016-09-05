@@ -595,7 +595,8 @@ int raw appstarting 0x7f050001
 int raw incompleteclicks 0x7f050002
 int raw internalerror 0x7f050003
 int raw nointernet 0x7f050004
-int raw secondclick 0x7f050005
+int raw repeatquestion 0x7f050005
+int raw secondclick 0x7f050006
 int string abc_action_bar_home_description 0x7f060000
 int string abc_action_bar_home_description_format 0x7f060001
 int string abc_action_bar_home_subtitle_description_format 0x7f060002

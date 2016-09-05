@@ -65,6 +65,8 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
                     mp.reset();
                     mp.release();
                     mp = null;
+                    sleep(1000);
+                    CameraActivity.startPlaying("afteranswer");
                 }
             });
             mPlayer.setDataSource(mFileName);
@@ -79,8 +81,6 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
         Camera2BasicFragment.answerCompleted = true;
         long timeElapsed = System.currentTimeMillis() - Camera2BasicFragment.startTime;
         System.out.println("Time elapsed (in sec) : "+(timeElapsed/1000));
-       sleep(5000);
-        CameraActivity.startPlaying("afteranswer");
     }
 }
 
