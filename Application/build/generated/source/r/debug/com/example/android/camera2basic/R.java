@@ -1836,7 +1836,8 @@ containing a value of this type.
         public static final int incompleteclicks=0x7f050002;
         public static final int internalerror=0x7f050003;
         public static final int nointernet=0x7f050004;
-        public static final int secondclick=0x7f050005;
+        public static final int repeatquestion=0x7f050005;
+        public static final int secondclick=0x7f050006;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f060000;

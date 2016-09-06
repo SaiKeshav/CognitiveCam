@@ -61,7 +61,7 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
                 .images(compressedImage)
                 .build();
         VisualClassification result = service.classify(options).execute();
-
+        System.out.println(result);
         DirectoryPath = (String)paths[1];
 
         try {
@@ -72,9 +72,9 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
             //  new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected");
-        } finally{
-            countDownLatch.countDown();
         }
+        countDownLatch.countDown();
+        System.out.println("Latch counted down in VisualRecongition");
 
         return result.toString();
     }

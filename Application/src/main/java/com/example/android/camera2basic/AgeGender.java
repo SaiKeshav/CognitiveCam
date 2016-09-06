@@ -86,9 +86,9 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
             // new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected in Age Gender");
-        } finally{
-            countDownLatch.countDown();
         }
+        countDownLatch.countDown();
+        System.out.println("Latch counted down in AgeGender");
 
         return result.toString();
     }
@@ -130,16 +130,5 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
         }
         return f;
     }
-//    public static void main(String[] args) {
-//        VisualRecognition service = new VisualRecognition(VisualRecognition.VERSION_DATE_2016_05_20);
-//        service.setApiKey("26a259b7f5dc0f5c8c1cc933d8722b0e66aed5df");
-//
-//        System.out.println("Classify an image");
-//        ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
-//                .images(new File("res/drawable/car.png"))
-//                .build();
-//        VisualClassification result = service.classify(options).execute();
-//        System.out.println("Result is : "+result);
-//    }
 
 }

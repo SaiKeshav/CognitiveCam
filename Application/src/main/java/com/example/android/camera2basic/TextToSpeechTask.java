@@ -44,7 +44,6 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         startPlaying();
         return "NothingToBeReturned";
     }

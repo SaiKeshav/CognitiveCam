@@ -31,18 +31,14 @@ public class SpeechToTextTask extends AsyncTask<Object,Void,String> {
 
     protected void onPostExecute(String result) {
         try {
+            System.out.println(result);
             JSONObject obj = new JSONObject(result);
             JSONObject resultarray1= obj.getJSONArray("results").getJSONObject(0);
             String question=resultarray1.getJSONArray("alternatives").getJSONObject(0).getString("transcript");
             new QuestionClassifier().execute(question,DirectoryPath);
             System.out.println("Question : "+question);
         } catch (JSONException e) {
-            System.out.println("Did not get the question!");
-            CameraActivity.startPlaying("repeatquestion");
-            Camera2BasicFragment.capture=false;
-            Camera2BasicFragment.answerCompleted=true;
-//            e.printStackTrace();
+            new QuestionClassifier().execute("noquestion",DirectoryPath);
         }
-
     }
 }

@@ -78,9 +78,10 @@ public class RecognizeText extends AsyncTask<Object, Void, String> {
             //new TextToSpeechTask().execute(classes,DirectoryPath);
         } catch (JSONException e) {
             System.out.println("Nothing Detected In Text ");
-        } finally{
-            countDownLatch.countDown();
         }
+
+        countDownLatch.countDown();
+        System.out.println("Latch counted down in Recongize Text");
 
         return result.toString();
     }

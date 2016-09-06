@@ -1,6 +1,7 @@
 package com.example.android.camera2basic;
 
 import android.os.AsyncTask;
+import android.os.SystemClock;
 
 import com.ibm.watson.developer_cloud.http.ServiceCall;
 import com.ibm.watson.developer_cloud.natural_language_classifier.v1.NaturalLanguageClassifier;
@@ -18,11 +19,15 @@ import org.json.JSONObject;
 public class QuestionClassifier extends AsyncTask<String,Void,String> {
 
     public String DirectoryPath = null;
+    public boolean noQuestion = false;
 
     @Override
     protected String doInBackground(String... paths) {
         System.out.println("Classifying question...");
         String question = paths[0];
+        if(question == "noquestion"){
+            noQuestion = true;
+        }
         NaturalLanguageClassifier service = new NaturalLanguageClassifier();
         service.setUsernameAndPassword("50484991-1d28-49a0-aaf6-0caae44b8608", "7luqfgcIasoz");
 
@@ -39,13 +44,18 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
             JSONObject obj = new JSONObject(result);
             String qclass= obj.getString("top_class");
             System.out.println("Question Class: "+qclass);
-           // new VisualRecognition(Camera2BasicFragment.currContext).execute(Camera2BasicFragment.mFile.getPath(),DirectoryPath);
+            VisualRecognition.countDownLatch.await();
+            AgeGender.countDownLatch.await();
+            RecognizeText.countDownLatch.await();
+            System.out.println("Finished waiting");
+            if(noQuestion==true){
+                qclass="default";
+            }
             switch (qclass){
                 case "1":{
-                    VisualRecognition.countDownLatch.await();
                     System.out.println("It classified as Identification");
                     String answer;
-                    if(VisualRecognition.classes!=null){
+                    if(VisualRecognition.classes!=null && !VisualRecognition.classes.isEmpty()){
                         answer = "Found object "+VisualRecognition.classes;
                     }else{
                         answer = "Sorry, could not recognize any object";
@@ -54,9 +64,8 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                 }
                 break;
                 case "2":{
-                    AgeGender.countDownLatch.await();
                     String answer;
-                    if(AgeGender.minAge==0 && AgeGender.maxAge==0 && AgeGender.gender==""){
+                    if(AgeGender.minAge==0 && AgeGender.maxAge==0 && (AgeGender.gender=="" || AgeGender.gender==null)){
                         answer="Sorry, could not recognize anyone";
                     }else{
                         answer = "The person is a "+AgeGender.gender+" with age between "+AgeGender.minAge+" and "+AgeGender.maxAge;
@@ -66,9 +75,8 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                 }
                 break;
                 case "3":{
-                    RecognizeText.countDownLatch.await();
                     String answer;
-                    if(RecognizeText.text!=""){
+                    if(RecognizeText.text!=null && !RecognizeText.text.isEmpty()){
                         answer = "Found text "+RecognizeText.text;
                     }else{
                         answer = "Sorry, could not recognize any text";
@@ -82,10 +90,11 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                     System.out.println("Sorry Couldn't classify");
                     new TextToSpeechTask().execute("Sorry ! we couldn't figure out what it is.",DirectoryPath);
                 }
-
+                break;
+                default:{
+                    new TextToSpeechTask().execute("Sorry ! Couldn't get the question.",DirectoryPath);
+                }
             }
-
-
             } catch (JSONException e) {
             e.printStackTrace();
         } catch (InterruptedException e) {
@@ -93,15 +102,4 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
         }
 
     }
-//    public static void main(String args[]) {
-//        System.out.println("!! In my main !!");
-//
-//        String question = "What is this ?";
-//        NaturalLanguageClassifier service = new NaturalLanguageClassifier();
-//        service.setUsernameAndPassword("50484991-1d28-49a0-aaf6-0caae44b8608", "7luqfgcIasoz");
-//
-//        Classification classification = (Classification) service.classify("33fffex86-nlc-3331", question);
-//        System.out.println(classification);
-//
-//    }
 }

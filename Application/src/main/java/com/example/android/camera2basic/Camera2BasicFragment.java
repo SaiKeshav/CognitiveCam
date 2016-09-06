@@ -840,6 +840,15 @@ public class Camera2BasicFragment extends Fragment
                     showToast("Saved: " + mFile);
                     Log.d(TAG, mFile.toString());
                     unlockFocus();
+                    acquireSem();
+                    currContext = getActivity().getApplicationContext();
+                    AsyncTask vr = new VisualRecognition(currContext);
+                    vr.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
+                    AsyncTask rt= new RecognizeText(currContext);
+                    rt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
+                    AsyncTask ag= new AgeGender(currContext);
+                    ag.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
+
                 }
             };
 
@@ -907,17 +916,9 @@ public class Camera2BasicFragment extends Fragment
             capture = true;
         }
         else{
-            acquireSem();
             ear.stop();
             answerCompleted = false; // Set to true at end of SpeechToTextTask.java
-            currContext = getActivity().getApplicationContext();
             startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
-            AsyncTask vr = new VisualRecognition(currContext);
-            vr.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
-            AsyncTask rt= new RecognizeText(currContext);
-            rt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
-            AsyncTask ag= new AgeGender(currContext);
-            ag.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,Camera2BasicFragment.mFile.getPath(),getActivity().getExternalFilesDir(null).getPath());
             AsyncTask sptotxt = new SpeechToTextTask();
 
             sptotxt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getActivity().getExternalFilesDir(null).getPath());
