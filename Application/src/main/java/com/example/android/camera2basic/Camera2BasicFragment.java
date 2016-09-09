@@ -920,8 +920,8 @@ public class Camera2BasicFragment extends Fragment
             answerCompleted = false; // Set to true at end of SpeechToTextTask.java
             startTime = System.currentTimeMillis(); // To compute the time elapsed for getting answer
             AsyncTask sptotxt = new SpeechToTextTask();
-
-            sptotxt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getActivity().getExternalFilesDir(null).getPath());
+            sptotxt.execute(getActivity().getExternalFilesDir(null).getPath());
+//            sptotxt.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,getActivity().getExternalFilesDir(null).getPath());
             CameraActivity.startPlaying("secondclick");
             capture = false;
         }

@@ -53,6 +53,7 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
         String mFileName = DirectoryPath+"/answer.flac";
         MediaPlayer mPlayer = CameraActivity.mPlayer;
         if(mPlayer != null){
+//            mPlayer.reset();
             mPlayer.release();
             mPlayer = new MediaPlayer();
         }
