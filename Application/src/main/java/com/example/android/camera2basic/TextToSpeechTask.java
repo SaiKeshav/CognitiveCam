@@ -44,7 +44,6 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        startPlaying();
         return "NothingToBeReturned";
     }
 
@@ -78,6 +77,7 @@ public class TextToSpeechTask extends AsyncTask<String,Void,String> {
     }
 
     protected void onPostExecute(String result){
+        startPlaying();
         Camera2BasicFragment.answerCompleted = true;
         long timeElapsed = System.currentTimeMillis() - Camera2BasicFragment.startTime;
         System.out.println("Time elapsed (in sec) : "+(timeElapsed/1000));
