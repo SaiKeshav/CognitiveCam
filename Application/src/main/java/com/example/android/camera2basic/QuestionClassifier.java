@@ -36,6 +36,15 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
 
         DirectoryPath = paths[1];
 
+        System.out.println("QuestionClassifier: Waiting for latches");
+        try {
+            VisualRecognition.countDownLatch.await();
+            AgeGender.countDownLatch.await();
+            RecognizeText.countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Finished waiting");
         return classification.toString();
     }
 
@@ -44,10 +53,6 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
             JSONObject obj = new JSONObject(result);
             String qclass= obj.getString("top_class");
             System.out.println("Question Class: "+qclass);
-            VisualRecognition.countDownLatch.await();
-            AgeGender.countDownLatch.await();
-            RecognizeText.countDownLatch.await();
-            System.out.println("Finished waiting");
             if(noQuestion==true){
                 qclass="default";
             }
@@ -96,8 +101,6 @@ public class QuestionClassifier extends AsyncTask<String,Void,String> {
                 }
             }
             } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
