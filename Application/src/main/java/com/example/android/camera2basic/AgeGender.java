@@ -69,8 +69,6 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
 
 
         DirectoryPath = (String)paths[1];
-
-        System.out.println("OnPostExecute...");
         System.out.println(result);
         try {
 
@@ -96,8 +94,6 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
     // onPostExecute displays the results of the AsyncTask.
     @Override
     protected void onPostExecute(String result) {
-
-
 // textView.setText(result);
     }
 
@@ -130,5 +126,4 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
         }
         return f;
     }
-
 }
