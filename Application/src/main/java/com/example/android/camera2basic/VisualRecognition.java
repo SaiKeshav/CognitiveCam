@@ -55,14 +55,15 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
         File actualImageFile = new File((String)paths[0]);
         // Library link : https://github.com/zetbaitsu/Compressor
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
+        DirectoryPath = (String)paths[1];
         File compressedImage = bitmapToFile(compressedBitmap);
+        System.out.println("The size of image for VisualClassification (in kB) : "+(compressedImage.length()/1024));
         // TODO Image size may be still greater than 1 MB !
         ClassifyImagesOptions options = new ClassifyImagesOptions.Builder()
                 .images(compressedImage)
                 .build();
         VisualClassification result = service.classify(options).execute();
         System.out.println(result);
-        DirectoryPath = (String)paths[1];
 
         try {
             JSONObject obj = new JSONObject(result.toString());
@@ -90,7 +91,8 @@ public class VisualRecognition extends AsyncTask<Object, Void, String> {
     public File bitmapToFile(Bitmap bmp) {
 
         //create a file to write bitmap data
-        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+//        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+        File f = new File(DirectoryPath+"/CompressedVisualFile.jpeg");
         try {
             f.createNewFile();
         } catch (IOException e) {

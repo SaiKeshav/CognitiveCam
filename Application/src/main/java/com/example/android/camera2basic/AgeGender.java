@@ -60,7 +60,9 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
         File actualImageFile = new File((String)paths[0]);
         // Library link : https://github.com/zetbaitsu/Compressor
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
+        DirectoryPath = (String)paths[1];
         File compressedImage = bitmapToFile(compressedBitmap);
+        System.out.println("The size of image for Age-Gender (in kB) : "+(compressedImage.length()/1024));
         // TODO Image size may be still greater than 1 MB !
 
         System.out.println("Detect faces");
@@ -68,7 +70,6 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
         DetectedFaces result = service.detectFaces(options).execute();
 
 
-        DirectoryPath = (String)paths[1];
         System.out.println(result);
         try {
 
@@ -100,7 +101,8 @@ public class AgeGender extends AsyncTask<Object, Void, String> {
     public File bitmapToFile(Bitmap bmp) {
 
         //create a file to write bitmap data
-        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+//        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+        File f = new File(DirectoryPath+"/CompressedAgeFile.jpeg");
         try {
             f.createNewFile();
         } catch (IOException e) {

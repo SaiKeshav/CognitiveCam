@@ -55,17 +55,17 @@ public class RecognizeText extends AsyncTask<Object, Void, String> {
         // params comes from the execute() call: params[0] is the url.
         com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition service = new com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition(com.ibm.watson.developer_cloud.visual_recognition.v3.VisualRecognition.VERSION_DATE_2016_05_20);
         service.setApiKey("26a259b7f5dc0f5c8c1cc933d8722b0e66aed5df");
-
         File actualImageFile = new File((String)paths[0]);
         // Library link : https://github.com/zetbaitsu/Compressor
         Bitmap compressedBitmap = Compressor.getDefault(mContext).compressToBitmap(actualImageFile);
+        DirectoryPath = (String)paths[1];
         File compressedImage = bitmapToFile(compressedBitmap);
+        System.out.println("The size of image for RecognizeText (in kB) : "+(compressedImage.length()/1024));
         // TODO Image size may be still greater than 1 MB !
         VisualRecognitionOptions options= new VisualRecognitionOptions.Builder().images(compressedImage).build();
 
         RecognizedText result = service.recognizeText(options).execute();
 
-        DirectoryPath = (String)paths[1];
 
         System.out.println("OnPostExecute...");
         System.out.println(result);
@@ -96,7 +96,8 @@ public class RecognizeText extends AsyncTask<Object, Void, String> {
     public File bitmapToFile(Bitmap bmp) {
 
         //create a file to write bitmap data
-        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+//        File f = new File(mContext.getCacheDir(), "CompressedFile.jpeg");
+        File f = new File(DirectoryPath+"/CompressedTextFile.jpeg");
         try {
             f.createNewFile();
         } catch (IOException e) {
